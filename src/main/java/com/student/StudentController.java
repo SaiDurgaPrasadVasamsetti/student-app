@@ -1,4 +1,3 @@
-
 package com.student;
 
 import org.springframework.web.bind.annotation.*;
@@ -14,13 +13,25 @@ public class StudentController {
         this.repo = repo;
     }
 
+    // GET all students
     @GetMapping("/students")
     public List<Student> getAll() {
         return repo.findAll();
     }
 
-    @PostMapping("/students")
-    public Student add(@RequestBody Student s) {
-        return repo.save(s);
+    // FIXED: accept form data
+    @PostMapping("/add")
+    public String addStudent(@RequestParam String name,
+                             @RequestParam String email,
+                             @RequestParam int marks) {
+
+        Student s = new Student();
+        s.setName(name);
+        s.setEmail(email);
+        s.setMarks(marks);
+
+        repo.save(s);
+
+        return "Student Saved";
     }
 }
