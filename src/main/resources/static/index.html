@@ -14,25 +14,33 @@
 
 <script>
 function save() {
-    const student = {
-        name: document.getElementById("name").value,
-        email: document.getElementById("email").value,
-        marks: parseInt(document.getElementById("marks").value)
-    };
+
+    const name = document.getElementById("name").value;
+    const email = document.getElementById("email").value;
+    const marks = document.getElementById("marks").value;
+
+    // simple validation
+    if (!name || !email || !marks) {
+        alert("Please fill all fields");
+        return;
+    }
 
     fetch("/students", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(student)
+        body: JSON.stringify({
+            name: name,
+            email: email,
+            marks: parseInt(marks)
+        })
     })
-    .then(res => res.json())
-    .then(() => {
+    .then(() => {   // ⚠️ removed res.json()
         // clear inputs
         document.getElementById("name").value = "";
         document.getElementById("email").value = "";
         document.getElementById("marks").value = "";
 
-        load();
+        load(); // reload list
     })
     .catch(err => console.error("Error:", err));
 }
@@ -44,10 +52,15 @@ function load() {
         const list = document.getElementById("list");
         list.innerHTML = "";
 
+        if (data.length === 0) {
+            list.innerHTML = "<li>No students found</li>";
+            return;
+        }
+
         data.forEach(s => {
             list.innerHTML += `
                 <li>
-                    ${s.name} | ${s.email} | ${s.marks}
+                    <b>${s.name}</b> | ${s.email} | Marks: ${s.marks}
                 </li>
             `;
         });
@@ -55,7 +68,7 @@ function load() {
     .catch(err => console.error("Error:", err));
 }
 
-// Load data on page start
+// load on page start
 load();
 </script>
 
