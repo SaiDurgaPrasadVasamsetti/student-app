@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/students")   // base path
 @CrossOrigin
 public class StudentController {
 
@@ -14,24 +15,14 @@ public class StudentController {
     }
 
     // GET all students
-    @GetMapping("/students")
+    @GetMapping
     public List<Student> getAll() {
         return repo.findAll();
     }
 
-    // FIXED: accept form data
-    @PostMapping("/add")
-    public String addStudent(@RequestParam String name,
-                             @RequestParam String email,
-                             @RequestParam int marks) {
-
-        Student s = new Student();
-        s.setName(name);
-        s.setEmail(email);
-        s.setMarks(marks);
-
-        repo.save(s);
-
-        return "Student Saved";
+    // POST new student (JSON)
+    @PostMapping
+    public Student addStudent(@RequestBody Student s) {
+        return repo.save(s);
     }
 }
