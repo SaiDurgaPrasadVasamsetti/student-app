@@ -13,36 +13,17 @@ public class Student {
     private String email;
     private int marks;
 
-    // REQUIRED: Default constructor
+    // 🔴 VERY IMPORTANT (needed for JSON)
     public Student() {}
 
-    // Getter for ID
-    public Long getId() {
-        return id;
-    }
+    public Long getId() { return id; }
 
-    // Getters and Setters
-    public String getName() {
-        return name;
-    }
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public int getMarks() {
-        return marks;
-    }
-
-    public void setMarks(int marks) {
-        this.marks = marks;
-    }
+    public int getMarks() { return marks; }
+    public void setMarks(int marks) { this.marks = marks; }
 }
