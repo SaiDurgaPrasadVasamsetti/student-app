@@ -1,1 +1,43 @@
+<!DOCTYPE html>
+<html>
+<body>
 
+<h2>Add Student</h2>
+
+<input id="name" placeholder="Name">
+<input id="email" placeholder="Email">
+<input id="marks" placeholder="Marks">
+
+<button onclick="save()">Save</button>
+
+<ul id="list"></ul>
+
+<script>
+function save() {
+    fetch("/students", {
+        method: "POST",
+        headers: {"Content-Type":"application/json"},
+        body: JSON.stringify({
+            name: name.value,
+            email: email.value,
+            marks: marks.value
+        })
+    }).then(load);
+}
+
+function load() {
+    fetch("/students")
+    .then(res => res.json())
+    .then(data => {
+        list.innerHTML="";
+        data.forEach(s=>{
+            list.innerHTML += `<li>${s.name}</li>`;
+        });
+    });
+}
+
+load();
+</script>
+
+</body>
+</html>
